@@ -24,6 +24,7 @@ public final class R {
     }
     public static final class color {
         public static final int blue_twitter=0x7f090000;
+        public static final int grey_twitter=0x7f090001;
     }
     public static final class dimen {
         public static final int activity_horizontal_margin=0x7f080000;
