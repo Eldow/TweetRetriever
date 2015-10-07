@@ -1,15 +1,23 @@
 package worldline.ssm.rd.ux.wltwitter;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
-public class WLTwitterActivity extends Activity {
-    public static final String WLT_PREFS = "WLTFile";
+import worldline.ssm.rd.ux.wltwitter.frags.WLTweetsFragment;
+import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
+
+
+public class WLTwitterActivity extends Activity implements WLTweetsFragment.OnArticleSelectedListener{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,9 +26,14 @@ public class WLTwitterActivity extends Activity {
         if(getIntent().getExtras() != null) { //Sign in
             username = getIntent().getExtras().getString("username");
         } else { //Quick start
-            username = WLTwitterApplication.getContext().getSharedPreferences(WLT_PREFS, Context.MODE_PRIVATE).getString("username",null);
+            username = WLTwitterApplication.getContext().getSharedPreferences(Constants.Preferences.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE).getString("username",null);
         }
         getActionBar().setSubtitle(username);
+        Fragment tFragment = new WLTweetsFragment();
+        FragmentManager fragmentM = getFragmentManager();
+        FragmentTransaction transaction = fragmentM.beginTransaction();
+        transaction.add(R.id.rootLayout, tFragment);
+        transaction.commit();
 
     }
 
@@ -41,14 +54,19 @@ public class WLTwitterActivity extends Activity {
         // On Logout
         if (id == R.id.actionLogout) {
             //clear username & password
-            WLTwitterApplication.getContext().getSharedPreferences(WLT_PREFS, Context.MODE_PRIVATE).edit().remove("username").commit();
-            WLTwitterApplication.getContext().getSharedPreferences(WLT_PREFS, Context.MODE_PRIVATE).edit().remove("password").commit();
-            //start login activity
-            Intent intent = new Intent(this, WLTwitterLoginActivity.class);
-            startActivity(intent);
+            WLTwitterApplication.getContext().getSharedPreferences(Constants.Preferences.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE).edit().remove("username").commit();
+            WLTwitterApplication.getContext().getSharedPreferences(Constants.Preferences.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE).edit().remove("password").commit();
+            //finish this activity
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onTweetClicked(Tweet tweet) {
+        Toast.makeText(this, tweet.text, Toast.LENGTH_LONG).show();
     }
 }

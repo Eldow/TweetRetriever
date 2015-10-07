@@ -1,0 +1,12 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="worldline.ssm.rd.ux.wltwitter.frags.WLTweetsFragment">
+
+    <ListView
+        android:id="@+id/tweetsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</RelativeLayout>
+<!-- From: file:/C:/Users/franc/Documents/WLTwitterStep0/app/src/main/res/layout/fragment_wltweets.xml -->

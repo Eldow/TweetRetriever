@@ -8,9 +8,10 @@
     <string name="action_logout">Logout</string>
 
     <!-- LOGIN -->
-    <string name="loginHint">Your Twitter login</string>
-    <string name="passwordHint">Your Twitter password</string>
+    <string name="loginHint">Twitter login</string>
+    <string name="passwordHint">Twitter password</string>
     <string name="login">Sign in</string>
+    <string name="error_empty_fields">Empty fields!</string>
     <string name="error_no_login">Empty login !</string>
     <string name="error_no_password">Empty password !</string>
     <string name="action_settings">Title!</string>

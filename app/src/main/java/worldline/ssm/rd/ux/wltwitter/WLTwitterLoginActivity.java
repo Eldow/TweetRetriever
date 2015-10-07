@@ -13,10 +13,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
+
 
 public class WLTwitterLoginActivity extends Activity implements View.OnClickListener {
 
-    public static final String WLT_PREFS = "WLTFile";
     private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class WLTwitterLoginActivity extends Activity implements View.OnClickList
         intent = new Intent(this, WLTwitterActivity.class);
         //getSharedPreferences(WLT_PREFS,  Context.MODE_PRIVATE).edit().clear().commit();
         //If prefs are already stored, start second activity
-        if(WLTwitterApplication.getContext().getSharedPreferences(WLT_PREFS, Context.MODE_PRIVATE).contains("username")){
+        if(WLTwitterApplication.getContext().getSharedPreferences(Constants.Preferences.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE).contains("username")){
             startActivity(intent);
         }
         super.onCreate(savedInstanceState);
@@ -36,21 +37,24 @@ public class WLTwitterLoginActivity extends Activity implements View.OnClickList
     @Override
     public void onClick(View view) {
         //Init prefs & intent
-        SharedPreferences prefs = WLTwitterApplication.getContext().getSharedPreferences(WLT_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences prefs = WLTwitterApplication.getContext().getSharedPreferences(Constants.Preferences.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
         //Get what we need from editTexts
         EditText username = (EditText) findViewById(R.id.editTextLogin);
         EditText password = (EditText) findViewById(R.id.editTextPassword);
         String strUsername = username.getText().toString();
         String strPassword = username.getText().toString();
         //Check for empty fields
-        if (TextUtils.isEmpty(username.getText()) || TextUtils.isEmpty(password.getText())) {
-            Toast.makeText(this, "Empty field(s)", Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(username.getText()) && TextUtils.isEmpty(password.getText())) {
+            Toast.makeText(this, R.string.error_empty_fields, Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(username.getText())){
+            Toast.makeText(this, R.string.error_no_login, Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(password.getText())){
+            Toast.makeText(this, R.string.error_no_password, Toast.LENGTH_LONG).show();
         }
         else {
         //Store in prefs for future connections
-            prefs.edit().putString("username",strUsername);
-            prefs.edit().putString("password", strPassword);
-            prefs.edit().apply();
+            prefs.edit().putString("username",strUsername).commit();
+            prefs.edit().putString("password", strPassword).commit();
             //Create new Bundle to display username
             Bundle extras = new Bundle();
             extras.putString("username", strUsername);
