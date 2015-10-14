@@ -2,4 +2,5 @@
 <resources>
     <color name="blue_twitter">#FF44BBE3</color>
     <color name="grey_twitter">#eee</color>
+    <color name="white_twitter">#fff</color>
 </resources>

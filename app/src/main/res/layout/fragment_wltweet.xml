@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="worldline.ssm.rd.ux.wltwitter.frags.WLTweetFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/tweet_fragment_image_view"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/blue_twitter"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_alignBottom="@+id/tweet_fragment_text_view_alias" />
+        <TextView
+            android:id="@+id/tweet_fragment_text_view_username"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@+id/tweet_fragment_image_view"
+            android:layout_toEndOf="@+id/tweet_fragment_image_view"
+            android:textColor="@color/white_twitter"
+            android:background="@color/blue_twitter"
+            android:layout_margin="2dp"
+            />
+        <TextView
+            android:id="@+id/tweet_fragment_text_view_alias"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tweet_fragment_text_view_username"
+            android:layout_toRightOf="@+id/tweet_fragment_image_view"
+            android:layout_toEndOf="@+id/tweet_fragment_image_view"
+            android:textColor="@color/white_twitter"
+            android:layout_margin="2dp"
+            android:background="@color/blue_twitter"/>
+        <TextView
+            android:id="@+id/tweet_fragment_text_view_content"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/tweet_fragment_image_view"
+            android:layout_alignRight="@+id/tweet_fragment_text_view_alias"
+            android:layout_alignEnd="@+id/tweet_fragment_text_view_alias"
+            android:textColor="@color/white_twitter"
+            android:background="@color/blue_twitter"
+            android:layout_marginTop="6dp" />
+        <Button
+            android:id="@+id/tweet_fragment_button_reply"
+            android:text = "@string/tweet_fragment_reply"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tweet_fragment_text_view_content"
+            android:layout_toLeftOf="@+id/tweet_fragment_button_retweet"
+            android:layout_toStartOf="@+id/tweet_fragment_button_retweet" />
+        <Button
+            android:id="@+id/tweet_fragment_button_retweet"
+            android:text = "@string/tweet_fragment_retweet"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/tweet_fragment_button_reply"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/tweet_fragment_button_star"
+            android:text = "@string/tweet_fragment_star"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/tweet_fragment_button_retweet"
+            android:layout_toRightOf="@+id/tweet_fragment_button_retweet"
+            android:layout_toEndOf="@+id/tweet_fragment_button_retweet" />
+
+    </RelativeLayout>
+</LinearLayout>

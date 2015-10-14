@@ -28,8 +28,8 @@ public class WLTwitterAsyncTask extends AsyncTask<String, Integer, List<Tweet>> 
         for (int i = 0; i < tweets.size(); i++) {
             System.out.println("[" + "WLTwitterApplication" + "]" + tweets.get(i).text);
             Log.d("TweetAsyncTask", tweets.get(i).text);
-            tweetListener.onTweetsRetrieved(tweets);
         }
+        tweetListener.onTweetsRetrieved(tweets);
     }
 
     public interface TweetListener {

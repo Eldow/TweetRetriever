@@ -8,5 +8,12 @@
         sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
         <dex dex="C:\Users\franc\Documents\WLTwitterStep0\app\build\intermediates\pre-dexed\debug\gson-2.3.1-ac1f444c684553d1e41dfd3d6d8724058d1bf2ef.jar" />
     </item>
+    <item
+        jar="C:\Users\franc\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\franc\Documents\WLTwitterStep0\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-98c7287b9649febd5290bad4cc2de4eef795b67d.jar" />
+    </item>
 
 </items>

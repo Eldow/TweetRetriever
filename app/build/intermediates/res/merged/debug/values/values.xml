@@ -4,6 +4,7 @@
     <eat-comment/>
     <color name="blue_twitter">#FF44BBE3</color>
     <color name="grey_twitter">#eee</color>
+    <color name="white_twitter">#fff</color>
     <!-- From: file:/C:/Users/franc/Documents/WLTwitterStep0/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -19,15 +20,19 @@
     <eat-comment/>
     <string name="action_logout">Logout</string>
     <string name="action_settings">Title!</string>
-    <string name="app_name">WLTwitter_Part1</string>
+    <string name="app_name">WLTwitter_Part4</string>
     <string name="error_empty_fields">Empty fields!</string>
     <string name="error_no_login">Empty login !</string>
     <string name="error_no_password">Empty password !</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_world">Hello world!</string>
     <string name="login">Sign in</string>
     <string name="loginHint">Twitter login</string>
     <string name="passwordHint">Twitter password</string>
     <string name="title_activity_wltwitter_login">WLTwitterLoginActivity</string>
+    <string name="tweet_fragment_reply">Reply</string>
+    <string name="tweet_fragment_retweet">RT</string>
+    <string name="tweet_fragment_star">Star</string>
     <!-- From: file:/C:/Users/franc/Documents/WLTwitterStep0/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">

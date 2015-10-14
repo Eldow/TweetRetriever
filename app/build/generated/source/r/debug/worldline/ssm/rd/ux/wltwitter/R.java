@@ -25,6 +25,7 @@ public final class R {
     public static final class color {
         public static final int blue_twitter=0x7f090000;
         public static final int grey_twitter=0x7f090001;
+        public static final int white_twitter=0x7f090002;
     }
     public static final class dimen {
         public static final int activity_horizontal_margin=0x7f080000;
@@ -46,19 +47,33 @@ public final class R {
         public static final int white_round_corners_background=0x7f020005;
     }
     public static final class id {
-        public static final int actionLogout=0x7f0c0007;
-        public static final int action_settings=0x7f0c0006;
+        public static final int actionLogout=0x7f0c0013;
+        public static final int action_settings=0x7f0c0012;
         public static final int buttonSignIn=0x7f0c0003;
+        public static final int button_rt_tweet=0x7f0c0006;
         public static final int editTextLogin=0x7f0c0001;
         public static final int editTextPassword=0x7f0c0002;
         public static final int imageView=0x7f0c0004;
+        public static final int image_view_tweet=0x7f0c0005;
         public static final int rootLayout=0x7f0c0000;
-        public static final int tweetsListView=0x7f0c0005;
+        public static final int text_view_alias=0x7f0c0009;
+        public static final int text_view_content=0x7f0c0007;
+        public static final int text_view_username=0x7f0c0008;
+        public static final int tweet_fragment_button_reply=0x7f0c000e;
+        public static final int tweet_fragment_button_retweet=0x7f0c000f;
+        public static final int tweet_fragment_button_star=0x7f0c0010;
+        public static final int tweet_fragment_image_view=0x7f0c000a;
+        public static final int tweet_fragment_text_view_alias=0x7f0c000b;
+        public static final int tweet_fragment_text_view_content=0x7f0c000d;
+        public static final int tweet_fragment_text_view_username=0x7f0c000c;
+        public static final int tweetsListView=0x7f0c0011;
     }
     public static final class layout {
         public static final int activity_main=0x7f040000;
         public static final int activity_wltwitter_login=0x7f040001;
-        public static final int fragment_wltweets=0x7f040002;
+        public static final int custom_wltweet=0x7f040002;
+        public static final int fragment_wltweet=0x7f040003;
+        public static final int fragment_wltweets=0x7f040004;
     }
     public static final class menu {
         public static final int menu_main=0x7f0b0000;
@@ -75,11 +90,15 @@ public final class R {
         public static final int error_empty_fields=0x7f0a0003;
         public static final int error_no_login=0x7f0a0004;
         public static final int error_no_password=0x7f0a0005;
-        public static final int hello_world=0x7f0a0006;
-        public static final int login=0x7f0a0007;
-        public static final int loginHint=0x7f0a0008;
-        public static final int passwordHint=0x7f0a0009;
-        public static final int title_activity_wltwitter_login=0x7f0a000a;
+        public static final int hello_blank_fragment=0x7f0a0006;
+        public static final int hello_world=0x7f0a0007;
+        public static final int login=0x7f0a0008;
+        public static final int loginHint=0x7f0a0009;
+        public static final int passwordHint=0x7f0a000a;
+        public static final int title_activity_wltwitter_login=0x7f0a000b;
+        public static final int tweet_fragment_reply=0x7f0a000c;
+        public static final int tweet_fragment_retweet=0x7f0a000d;
+        public static final int tweet_fragment_star=0x7f0a000e;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 

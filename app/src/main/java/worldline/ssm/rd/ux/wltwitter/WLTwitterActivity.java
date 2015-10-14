@@ -11,12 +11,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import worldline.ssm.rd.ux.wltwitter.frags.WLTweetFragment;
 import worldline.ssm.rd.ux.wltwitter.frags.WLTweetsFragment;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 
 
 public class WLTwitterActivity extends Activity implements WLTweetsFragment.OnArticleSelectedListener{
+    private Fragment tweetsFragment;
+    private Fragment tweetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +32,10 @@ public class WLTwitterActivity extends Activity implements WLTweetsFragment.OnAr
             username = WLTwitterApplication.getContext().getSharedPreferences(Constants.Preferences.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE).getString("username",null);
         }
         getActionBar().setSubtitle(username);
-        Fragment tFragment = new WLTweetsFragment();
+        tweetsFragment = new WLTweetsFragment();
         FragmentManager fragmentM = getFragmentManager();
         FragmentTransaction transaction = fragmentM.beginTransaction();
-        transaction.add(R.id.rootLayout, tFragment);
+        transaction.add(R.id.rootLayout, tweetsFragment);
         transaction.commit();
 
     }
@@ -67,6 +70,19 @@ public class WLTwitterActivity extends Activity implements WLTweetsFragment.OnAr
 
     @Override
     public void onTweetClicked(Tweet tweet) {
-        Toast.makeText(this, tweet.text, Toast.LENGTH_LONG).show();
+        tweetFragment = WLTweetFragment.newInstance(tweet.user.name, tweet.user.screenName, tweet.text, tweet.user.profileImageUrl);
+        FragmentManager fragmentM = getFragmentManager();
+        FragmentTransaction transaction = fragmentM.beginTransaction();
+        transaction.hide(tweetsFragment);
+        transaction.add(R.id.rootLayout,tweetFragment);
+        transaction.commit();
+    }
+
+    public void onTweetFragmentClicked(){
+        FragmentManager fragmentM = getFragmentManager();
+        FragmentTransaction transaction = fragmentM.beginTransaction();
+        transaction.remove(tweetFragment);
+        transaction.show(tweetsFragment);
+        transaction.commit();
     }
 }

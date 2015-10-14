@@ -53,8 +53,8 @@ public class WLTwitterLoginActivity extends Activity implements View.OnClickList
         }
         else {
         //Store in prefs for future connections
-            prefs.edit().putString("username",strUsername).commit();
-            prefs.edit().putString("password", strPassword).commit();
+            prefs.edit().putString("username",strUsername).apply();
+            prefs.edit().putString("password", strPassword).apply();
             //Create new Bundle to display username
             Bundle extras = new Bundle();
             extras.putString("username", strUsername);
