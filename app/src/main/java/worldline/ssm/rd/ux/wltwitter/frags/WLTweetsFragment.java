@@ -2,10 +2,15 @@ package worldline.ssm.rd.ux.wltwitter.frags;
 
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +23,12 @@ import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.adapter.WLTweetsAdapter;
 import worldline.ssm.rd.ux.wltwitter.async.WLTwitterAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseContract;
+import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 
-public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.TweetListener, AdapterView.OnItemClickListener {
+public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.TweetListener, AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 
     private ListView mListView;
@@ -35,6 +42,8 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
     public void onTweetsRetrieved(List<Tweet> tweets) {
         //final ArrayAdapter<Tweet> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,tweets);
         final WLTweetsAdapter adapter = new WLTweetsAdapter(tweets);
+        //WLTwitterDatabaseManager.testDatabase(tweets);
+        WLTwitterDatabaseManager.testContentProvider(tweets);
         mListView.setAdapter(adapter);
     }
 
@@ -55,9 +64,9 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_wltweets, container, false);
+        getLoaderManager().initLoader(0,null,this);
         mListView = (ListView) rootView.findViewById(R.id.tweetsListView);
         addProgressBar(rootView);
         mListView.setOnItemClickListener(this);
@@ -71,7 +80,7 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         mListView.setEmptyView(progressBar);
-        ((ViewGroup)rootView).addView(progressBar,params);
+        ((ViewGroup)rootView).addView(progressBar, params);
 
     }
 
@@ -98,9 +107,41 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
         final Tweet tweet = (Tweet)adapter.getItemAtPosition(position);
         mListener.onTweetClicked(tweet);
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        final CursorLoader cursorLoader = new CursorLoader((WLTwitterApplication.getContext()));
+        cursorLoader.setUri(WLTwitterDatabaseContract.TWEETS_URI);
+        cursorLoader.setProjection(WLTwitterDatabaseContract.PROJECTION_FULL);
+        cursorLoader.setSelection(null);
+        cursorLoader.setSelectionArgs(null);
+        cursorLoader.setSortOrder(null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (null != data) {
+            while(data.moveToNext()){
+                final Tweet tweet = WLTwitterDatabaseManager.tweetFromCursor(data);
+                Log.d("TweetsFragment", tweet.toString());
+            }
+            if (!data.isClosed()){
+                data.close();
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
     //interface for onTweetClicked
     public interface OnArticleSelectedListener {
         void onTweetClicked(Tweet tweet);
     }
+
+
 
 }

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:2:1-28:12
+ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:2:1-32:12
 	package
 		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:3:5-44
 		INJECTED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml
@@ -18,7 +18,7 @@ ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.
 	android:name
 		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:4:22-66
 application
-ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:5:5-26:19
+ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:5:5-30:19
 	android:label
 		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:9:9-41
 	android:allowBackup
@@ -51,6 +51,14 @@ ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.
 		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:24:13-45
 	android:name
 		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:23:13-46
+provider#worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseProvider
+ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:26:9-29:41
+	android:authorities
+		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:28:13-69
+	android:exported
+		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:29:13-38
+	android:name
+		ADDED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml:27:13-92
 uses-sdk
 INJECTED from C:\Users\franc\Documents\WLTwitterStep0\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 	android:targetSdkVersion

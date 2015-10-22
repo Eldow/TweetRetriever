@@ -29,6 +29,11 @@
             android:name="worldline.ssm.rd.ux.wltwitter.WLTwitterActivity"
             android:label="@string/app_name" >
         </activity>
+
+        <provider
+            android:name="worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseProvider"
+            android:authorities="worldline.ssm.rd.ux.TweetAuthority"
+            android:exported="false" />
     </application>
 
 </manifest>
