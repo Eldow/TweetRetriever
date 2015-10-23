@@ -1,14 +1,16 @@
 package worldline.ssm.rd.ux.wltwitter.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import worldline.ssm.rd.ux.wltwitter.pojo.TwitterUser;
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -59,7 +61,7 @@ public class WLTwitterDatabaseManager {
 
 		// Set the date created as timestamp
 		values.put(WLTwitterDatabaseContract.DATE_CREATED_TIMESTAMP, tweet.getDateCreatedTimestamp());
-		
+
 		// Set the user name
 		if (!TextUtils.isEmpty(tweet.user.name)){
 			values.put(WLTwitterDatabaseContract.USER_NAME, tweet.user.name);
@@ -83,43 +85,99 @@ public class WLTwitterDatabaseManager {
 		return values;
 	}
 
-	public static void testDatabase(List<Tweet> tweets){
-		final SQLiteOpenHelper sqLiteOpenHelper = new WLTwitterDatabaseHelper(WLTwitterApplication.getContext());
-		final SQLiteDatabase tweetsDatabase = sqLiteOpenHelper.getWritableDatabase();
-		for (Tweet tweet : tweets){
-			final ContentValues contentValues = new ContentValues();
-			contentValues.put(WLTwitterDatabaseContract.TEXT, tweet.text);
-			contentValues.put(WLTwitterDatabaseContract.DATE_CREATED_TIMESTAMP, tweet.getDateCreatedTimestamp());
-			contentValues.put(WLTwitterDatabaseContract.DATE_CREATED, tweet.dateCreated);
-			contentValues.put(WLTwitterDatabaseContract.USER_NAME, tweet.user.name);
-			contentValues.put(WLTwitterDatabaseContract.USER_IMAGE_URL, tweet.user.profileImageUrl);
-			contentValues.put(WLTwitterDatabaseContract.USER_ALIAS, tweet.user.screenName);
-			tweetsDatabase.insert(WLTwitterDatabaseContract.TABLE_TWEETS, "", contentValues);
+	public static synchronized int insertTweet(Tweet tweet){
+		if (null != tweet){
+			if (!doesContainTweet(tweet)){
+				final Uri uri = WLTwitterApplication.getContext().getContentResolver().insert(
+						WLTwitterDatabaseContract.TWEETS_URI, tweetToContentValues(tweet));
+				if (null != uri){
+					return Integer.parseInt(uri.getLastPathSegment());
+				} else {
+					return -1;
+				}
+			}
 		}
-		final Cursor cursor = tweetsDatabase.query(WLTwitterDatabaseContract.TABLE_TWEETS,
-				WLTwitterDatabaseContract.PROJECTION_FULL,null,null,null,null,null);
-		while(cursor.moveToNext()){
-			final String tweetUserName = cursor.getString(
-					cursor.getColumnIndex(WLTwitterDatabaseContract.USER_NAME)
-			);
-			Log.d("TweetDB", tweetUserName);
+		return -1;
+	}
+
+	public static synchronized List<Tweet> getStoredTweets(){
+		final List<Tweet> tweets = new ArrayList<Tweet>();
+		final Cursor cursor = WLTwitterApplication.getContext().getContentResolver().query(
+				WLTwitterDatabaseContract.TWEETS_URI, WLTwitterDatabaseContract.PROJECTION_FULL, null, null, null);
+		if (null != cursor){
+			while (cursor.moveToNext()){
+				tweets.add(tweetFromCursor(cursor));
+			}
 		}
-		if(!cursor.isClosed()){
+		if ((null != cursor) && (!cursor.isClosed())) {
 			cursor.close();
 		}
+		return tweets;
 	}
 
-	public static void testContentProvider(List<Tweet> tweets){
+	public static synchronized void dropDatabase(){
+		WLTwitterApplication.getContext().getContentResolver().delete(
+				WLTwitterDatabaseContract.TWEETS_URI, null, null);
+	}
+
+	private static synchronized boolean doesContainTweet(Tweet tweet){
+		boolean result = false;
+		if ((null != tweet) && (!TextUtils.isEmpty(tweet.dateCreated))){
+			final Cursor cursor = WLTwitterApplication.getContext().getContentResolver().query(
+					WLTwitterDatabaseContract.TWEETS_URI, WLTwitterDatabaseContract.PROJECTION_FULL,
+					WLTwitterDatabaseContract.SELECTION_BY_CREATION_DATE, new String[]{tweet.dateCreated}, null);
+			if ((null != cursor) && (cursor.moveToFirst())) {
+				result = true;
+			}
+			if ((null != cursor) && (!cursor.isClosed())) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+
+	public static void testDatabase(List<Tweet> tweets){
+		final WLTwitterDatabaseHelper dbHelper = new WLTwitterDatabaseHelper(WLTwitterApplication.getContext());
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		// First insert all values in database
+		for (Tweet tweet : tweets){
+			db.insert(WLTwitterDatabaseContract.TABLE_TWEETS, "", tweetToContentValues(tweet));
+			Log.w(Constants.General.LOG_TAG, "Tweet stored");
+			Log.w(Constants.General.LOG_TAG, tweet.toString());
+			Log.w(Constants.General.LOG_TAG, "----------------------");
+		}
+
+		// Now that all values are stored in database, read them and log
+		final Cursor cursor = db.query(WLTwitterDatabaseContract.TABLE_TWEETS,
+				WLTwitterDatabaseContract.PROJECTION_FULL,
+				null, null, null, null, null);
+		if (null != cursor){
+			while (cursor.moveToNext()){
+				final Tweet tweet = tweetFromCursor(cursor);
+				Log.i(Constants.General.LOG_TAG, "Stored tweet");
+				Log.i(Constants.General.LOG_TAG, tweet.toString());
+				Log.i(Constants.General.LOG_TAG, "----------------------");
+			}
+		}
+	}
+
+	public static void testContentProvider(){
+		// Test the query
 		WLTwitterApplication.getContext().getContentResolver().query(
-				WLTwitterDatabaseContract.TWEETS_URI,WLTwitterDatabaseContract.PROJECTION_FULL,
-				null,null,null);
+				WLTwitterDatabaseContract.TWEETS_URI, WLTwitterDatabaseContract.PROJECTION_FULL,
+				null, null, null);
+
+		// Test the insert
 		WLTwitterApplication.getContext().getContentResolver().insert(
 				WLTwitterDatabaseContract.TWEETS_URI, null);
+
+		// Test the update
 		WLTwitterApplication.getContext().getContentResolver().update(
-				WLTwitterDatabaseContract.TWEETS_URI,null,null,null);
+				WLTwitterDatabaseContract.TWEETS_URI, null, null, null);
+
+		// Test the delete
 		WLTwitterApplication.getContext().getContentResolver().delete(
-				WLTwitterDatabaseContract.TWEETS_URI,null,null);
-
+				WLTwitterDatabaseContract.TWEETS_URI, null, null);
 	}
-
 }

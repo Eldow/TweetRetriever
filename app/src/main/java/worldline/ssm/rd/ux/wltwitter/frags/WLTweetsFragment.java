@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ import java.util.List;
 import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.adapter.WLTweetsAdapter;
+import worldline.ssm.rd.ux.wltwitter.adapter.WLTweetsCursorAdapter;
 import worldline.ssm.rd.ux.wltwitter.async.WLTwitterAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseContract;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
@@ -33,6 +35,7 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
 
     private ListView mListView;
     private OnArticleSelectedListener mListener;
+    private WLTweetsCursorAdapter mAdapter;
 
     public WLTweetsFragment() {
         // Required empty public constructor
@@ -41,10 +44,13 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
     @Override
     public void onTweetsRetrieved(List<Tweet> tweets) {
         //final ArrayAdapter<Tweet> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,tweets);
-        final WLTweetsAdapter adapter = new WLTweetsAdapter(tweets);
+        mAdapter = new WLTweetsCursorAdapter(getActivity(), null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         //WLTwitterDatabaseManager.testDatabase(tweets);
-        WLTwitterDatabaseManager.testContentProvider(tweets);
-        mListView.setAdapter(adapter);
+        for(int i = 0; i < tweets.size(); i++) {
+            WLTwitterDatabaseManager.insertTweet(tweets.get(i));
+        }
+        //WLTwitterDatabaseManager.testContentProvider(tweets);
+        mListView.setAdapter(mAdapter);
     }
 
     public void onStart(){
@@ -110,25 +116,18 @@ public class WLTweetsFragment extends Fragment implements WLTwitterAsyncTask.Twe
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        final CursorLoader cursorLoader = new CursorLoader((WLTwitterApplication.getContext()));
-        cursorLoader.setUri(WLTwitterDatabaseContract.TWEETS_URI);
-        cursorLoader.setProjection(WLTwitterDatabaseContract.PROJECTION_FULL);
-        cursorLoader.setSelection(null);
-        cursorLoader.setSelectionArgs(null);
-        cursorLoader.setSortOrder(null);
-        return cursorLoader;
+        if(id == id ){
+            return new CursorLoader(getActivity(), WLTwitterDatabaseContract.TWEETS_URI,
+                    WLTwitterDatabaseContract.PROJECTION_FULL,
+                    null,null,WLTwitterDatabaseContract.ORDER_BY_DATE_CREATED_TIMESTAMP_DESCENDING);
+        }
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (null != data) {
-            while(data.moveToNext()){
-                final Tweet tweet = WLTwitterDatabaseManager.tweetFromCursor(data);
-                Log.d("TweetsFragment", tweet.toString());
-            }
-            if (!data.isClosed()){
-                data.close();
-            }
+        if (null != mAdapter) {
+            mAdapter.changeCursor(data);
         }
     }
 
