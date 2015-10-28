@@ -28,7 +28,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="login">Sign in</string>
     <string name="loginHint">Twitter login</string>
+    <string name="notification_content">You received a new Tweet !</string>
     <string name="passwordHint">Twitter password</string>
+    <string name="service_name">Tweet Service</string>
     <string name="title_activity_wltwitter_login">WLTwitterLoginActivity</string>
     <string name="tweet_fragment_reply">Reply</string>
     <string name="tweet_fragment_retweet">RT</string>

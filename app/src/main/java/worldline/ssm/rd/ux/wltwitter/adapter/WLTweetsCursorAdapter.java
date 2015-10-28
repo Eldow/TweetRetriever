@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -17,7 +18,7 @@ import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 /**
  * Created by franc on 23/10/2015.
  */
-public class WLTweetsCursorAdapter extends CursorAdapter{
+public class WLTweetsCursorAdapter extends CursorAdapter implements View.OnClickListener{
     public WLTweetsCursorAdapter(Context ctx, Cursor c, int flags){
         super(ctx,c,flags);
     }
@@ -37,6 +38,11 @@ public class WLTweetsCursorAdapter extends CursorAdapter{
         holder.name.setText(tweet.user.name);
         holder.alias.setText(tweet.user.screenName);
         holder.text.setText(tweet.text);
+        holder.button.setOnClickListener(this);
         Picasso.with(WLTwitterApplication.getContext()).load(tweet.user.profileImageUrl).into(holder.image);
+    }
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(WLTwitterApplication.getContext(), "RT pressed", Toast.LENGTH_LONG).show();
     }
 }

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="worldline.ssm.rd.ux.wltwitter" >
     <uses-permission android:name = "android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:name=".WLTwitterApplication"
         android:allowBackup="true"
@@ -27,6 +28,13 @@
             android:name="worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseProvider"
             android:authorities="worldline.ssm.rd.ux.TweetAuthority"
             android:exported ="false" />
+        <service
+            android:name=".service.WLTweetService"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/service_name"
+            android:exported = "false"></service>
+
+
     </application>
 
 </manifest>

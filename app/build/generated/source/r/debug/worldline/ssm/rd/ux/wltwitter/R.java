@@ -94,11 +94,13 @@ public final class R {
         public static final int hello_world=0x7f0a0007;
         public static final int login=0x7f0a0008;
         public static final int loginHint=0x7f0a0009;
-        public static final int passwordHint=0x7f0a000a;
-        public static final int title_activity_wltwitter_login=0x7f0a000b;
-        public static final int tweet_fragment_reply=0x7f0a000c;
-        public static final int tweet_fragment_retweet=0x7f0a000d;
-        public static final int tweet_fragment_star=0x7f0a000e;
+        public static final int notification_content=0x7f0a000a;
+        public static final int passwordHint=0x7f0a000b;
+        public static final int service_name=0x7f0a000c;
+        public static final int title_activity_wltwitter_login=0x7f0a000d;
+        public static final int tweet_fragment_reply=0x7f0a000e;
+        public static final int tweet_fragment_retweet=0x7f0a000f;
+        public static final int tweet_fragment_star=0x7f0a0010;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 
